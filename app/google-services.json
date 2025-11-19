@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "640043706996",
+    "project_id": "checkly-001",
+    "storage_bucket": "checkly-001.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:640043706996:android:350305a57b602fe15ebf21",
+        "android_client_info": {
+          "package_name": "com.temurx.checkly"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKgjo4kg8lKGx1mIfF4yIcVcbR-c123tY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

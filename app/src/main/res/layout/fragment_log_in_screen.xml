@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingHorizontal="8dp"
+    android:background="@color/white"
+    tools:context=".ui.LogInScreen">
+
+    <ImageView
+        android:id="@+id/login_restaurant_iv"
+        android:layout_width="match_parent"
+        android:layout_height="218dp"
+        android:src="@drawable/aroma"/>
+
+    <EditText
+        android:id="@+id/login_email"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:hint="Email"
+        android:textSize="16dp"
+        android:maxLength="25"
+        android:layout_marginHorizontal="10dp"
+        android:padding="8dp"
+        android:background="@drawable/login_edit_text_design"
+        android:textColorHint="#875C4E"/>
+
+    <EditText
+        android:id="@+id/login_pw"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="8dp"
+        android:textSize="16dp"
+        android:maxLength="25"
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/login_edit_text_design"
+        android:layout_marginTop="20dp"
+        android:hint="Password"
+        android:textColorHint="#875C4E"/>
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        android:background="@drawable/login_button_design"
+        android:layout_marginHorizontal="10dp"
+        android:text="Log In"/>
+</LinearLayout>

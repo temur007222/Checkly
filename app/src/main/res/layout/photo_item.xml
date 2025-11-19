@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:layout_marginEnd="8dp"
+    android:background="@drawable/photo_background">
+
+    <!-- The photo -->
+    <ImageView
+        android:id="@+id/photo_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:contentDescription="Task Photo" />
+
+    <!-- Delete icon -->
+    <ImageView
+        android:id="@+id/delete_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_delete"
+        android:background="@drawable/delete_icon_background"
+        android:padding="4dp"
+        android:layout_gravity="top|end"
+        android:layout_margin="4dp"
+        android:contentDescription="Delete photo"/>
+</FrameLayout>
