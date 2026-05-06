@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Legacy color aliases retained for pre-redesign drawables/layouts. -->
+    <color name="red">#FB0000</color>
+    <color name="light_green">#4CAF50</color>
+    <color name="yellow">#FFEB3B</color>
+</resources>
