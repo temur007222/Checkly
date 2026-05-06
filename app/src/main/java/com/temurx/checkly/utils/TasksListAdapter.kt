@@ -4,24 +4,23 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Timestamp
 import com.temurx.checkly.R
 import com.temurx.checkly.data.Task
+import com.temurx.checkly.data.TaskStatus
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class TasksListAdapter(
-    tasksList: MutableList<Task>,
+    @Suppress("UNUSED_PARAMETER") tasksList: MutableList<Task>,
     private val onTaskClick: (Task) -> Unit
 ) : RecyclerView.Adapter<TasksListAdapter.TaskViewHolder>() {
 
-    private val tasks = mutableListOf<Task>() // keep mutable list inside
+    private val tasks = mutableListOf<Task>()
 
-    inner class TaskViewHolder(val binding: View) : RecyclerView.ViewHolder(binding)
+    inner class TaskViewHolder(val itemRoot: View) : RecyclerView.ViewHolder(itemRoot)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -31,29 +30,17 @@ class TasksListAdapter(
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val task = tasks[position]
+        val title = holder.itemView.findViewById<TextView>(R.id.taskTitle)
+        val time = holder.itemView.findViewById<TextView>(R.id.taskTime)
+        val photoBadge = holder.itemView.findViewById<TextView>(R.id.photoBadge)
 
-        val statusText = holder.itemView.findViewById<TextView>(R.id.taskStatus)
-        val titleText = holder.itemView.findViewById<TextView>(R.id.taskTitle)
-        val dueTimeText = holder.itemView.findViewById<TextView>(R.id.taskTratTime)
-        val rootLayout = holder.itemView.findViewById<LinearLayout>(R.id.taskItemLayout)
+        title.text = task.title
+        photoBadge.visibility = if (task.requiresPhoto) View.VISIBLE else View.GONE
 
-        statusText.text = task.status
-        titleText.text = task.title
-
-        val formattedTime = task.dueTime?.toDate()?.let {
-            val sdf = SimpleDateFormat("dd.MM.yyyy 'at' HH:mm", Locale.getDefault())
-            sdf.format(it)
-        } ?: "No due date"
-        dueTimeText.text = "Due Time: $formattedTime"
-
-        val bgColor = when {
-            task.isCompleted -> ContextCompat.getColor(holder.itemView.context, R.color.light_green)
-            task.status == "IN PROGRESS" -> ContextCompat.getColor(holder.itemView.context, R.color.yellow)
-            task.dueTime != null && task.dueTime < Timestamp.now() && !task.isCompleted ->
-                ContextCompat.getColor(holder.itemView.context, R.color.red)
-            else -> ContextCompat.getColor(holder.itemView.context, android.R.color.white)
-        }
-        rootLayout.setBackgroundColor(bgColor)
+        val fmt = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val startStr = task.startTime?.toDate()?.let { fmt.format(it) } ?: "—"
+        val dueStr = fmt.format(task.dueTime.toDate())
+        time.text = "$startStr → $dueStr"
 
         holder.itemView.setOnClickListener { onTaskClick(task) }
     }
@@ -65,16 +52,18 @@ class TasksListAdapter(
         val now = Timestamp.now()
 
         val sorted = newTasks.sortedWith(compareBy<Task> { task ->
-            when (task.status) {
-                "IN PROGRESS" -> 0
-                "AVAILABLE" -> 1
-                "NOT YET AVAILABLE" -> 2
-                "OVERDUE" -> 3
-                "FINISHED" -> 4
+            when (TaskStatus.fromWire(task.status)) {
+                TaskStatus.IN_PROGRESS -> 0
+                TaskStatus.AVAILABLE -> 1
+                TaskStatus.NOT_YET_AVAILABLE -> 2
+                TaskStatus.OVERDUE -> 3
+                TaskStatus.FINISHED -> 4
                 else -> 5
             }
         }.thenComparator { t1, t2 ->
-            if (t1.status == "NOT YET AVAILABLE" && t2.status == "NOT YET AVAILABLE") {
+            val s1 = TaskStatus.fromWire(t1.status)
+            val s2 = TaskStatus.fromWire(t2.status)
+            if (s1 == TaskStatus.NOT_YET_AVAILABLE && s2 == TaskStatus.NOT_YET_AVAILABLE) {
                 val diff1 = kotlin.math.abs((t1.startTime?.toDate()?.time ?: Long.MAX_VALUE) - now.toDate().time)
                 val diff2 = kotlin.math.abs((t2.startTime?.toDate()?.time ?: Long.MAX_VALUE) - now.toDate().time)
                 diff1.compareTo(diff2)
@@ -86,5 +75,3 @@ class TasksListAdapter(
         notifyDataSetChanged()
     }
 }
-
-

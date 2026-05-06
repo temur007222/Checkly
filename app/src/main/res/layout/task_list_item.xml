@@ -1,43 +1,58 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/taskItemLayout"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:paddingHorizontal="8dp"
-    android:paddingVertical="5dp"
-    android:layout_marginBottom="15dp"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@drawable/bg_card_left_accent"
+    android:layout_marginVertical="@dimen/space_xs"
+    android:padding="@dimen/space_md"
+    android:elevation="@dimen/elev_card"
+    android:foreground="?attr/selectableItemBackground">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/taskTitle"
+        style="@style/TextAppearance.Checkly.Title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Restock fridge — main bar" />
+
+    <TextView
+        android:id="@+id/photoBadge"
+        style="@style/TextAppearance.Checkly.Label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@drawable/pill_status_photo_required"
+        android:textColor="@color/text_primary"
+        android:text="@string/task_pill_photo_required"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/space_xs"
+        app:layout_constraintTop_toBottomOf="@id/taskTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
 
-        <TextView
-            android:id="@+id/taskStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Not Yet Available"
-            android:textColor="@color/black"
-            android:textSize="12sp"/>
+    <TextView
+        android:id="@+id/taskTime"
+        style="@style/TextAppearance.Checkly.Caption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_sm"
+        android:layout_marginTop="@dimen/space_xs"
+        app:layout_constraintTop_toBottomOf="@id/taskTitle"
+        app:layout_constraintStart_toEndOf="@id/photoBadge"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="09:00 → 09:30" />
 
-        <TextView
-            android:id="@+id/taskTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:layout_marginTop="5dp"
-            android:text="Clean the basement"
-            android:textColor="@color/black"
-            android:textSize="20sp"/>
+    <TextView
+        android:id="@+id/taskStatus"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        tools:ignore="UnusedIds" />
 
-        <TextView
-            android:id="@+id/taskTratTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Today at 12:30"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/black"
-            android:textSize="14sp"/>
-    </LinearLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
