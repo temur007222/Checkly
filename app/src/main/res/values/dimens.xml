@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="space_xs">4dp</dimen>
+    <dimen name="space_sm">8dp</dimen>
+    <dimen name="space_md">12dp</dimen>
+    <dimen name="space_base">16dp</dimen>
+    <dimen name="space_lg">24dp</dimen>
+    <dimen name="space_xl">32dp</dimen>
+    <dimen name="space_2xl">48dp</dimen>
+    <dimen name="radius_pill">999dp</dimen>
+    <dimen name="radius_input">12dp</dimen>
+    <dimen name="radius_button">14dp</dimen>
+    <dimen name="radius_card">16dp</dimen>
+    <dimen name="radius_sheet">24dp</dimen>
+    <dimen name="height_button_cta">48dp</dimen>
+    <dimen name="height_button_secondary">44dp</dimen>
+    <dimen name="height_input">48dp</dimen>
+    <dimen name="size_touch_min">48dp</dimen>
+    <dimen name="size_fab">56dp</dimen>
+    <dimen name="size_icon_btn">32dp</dimen>
+    <dimen name="size_avatar_sm">40dp</dimen>
+    <dimen name="size_avatar_lg">76dp</dimen>
+    <dimen name="height_bottom_nav">64dp</dimen>
+    <dimen name="height_top_bar">56dp</dimen>
+    <dimen name="elev_card">2dp</dimen>
+    <dimen name="elev_fab">8dp</dimen>
+</resources>
