@@ -55,7 +55,7 @@ class TasksScreen : Fragment() {
             .collection("tasks")
             .addSnapshotListener { snapshot, e ->
                 if (e != null) {
-                    Toast.makeText(requireContext(), "Error loading tasks", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.tasks_load_error), Toast.LENGTH_SHORT).show()
                     return@addSnapshotListener
                 }
 

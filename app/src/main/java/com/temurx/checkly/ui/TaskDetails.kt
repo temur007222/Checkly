@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.temurx.checkly.R
 import com.temurx.checkly.databinding.FragmentTaskDetailsBinding
 import com.temurx.checkly.utils.PhotoAdapter
 import java.io.File
@@ -61,7 +62,7 @@ class TaskDetails : Fragment() {
         currentTaskId?.let { taskId ->
             loadTask(taskId)
         } ?: run {
-            Toast.makeText(requireContext(), "Task ID not found", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.task_id_missing), Toast.LENGTH_SHORT).show()
         }
 
         return binding.root
@@ -138,17 +139,17 @@ class TaskDetails : Fragment() {
             .document(taskId)
             .update("photoUrls", FieldValue.arrayUnion(photoUrl))
             .addOnSuccessListener {
-                Toast.makeText(requireContext(), "Photo uploaded successfully!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.task_photo_uploaded_toast), Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
-                Toast.makeText(requireContext(), "Failed to upload photo: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.task_photo_upload_error, e.message ?: ""), Toast.LENGTH_SHORT).show()
             }
     }
 
     // Load task info from Firestore with real-time updates
     private fun loadTask(taskId: String) {
         val currentUser = FirebaseAuth.getInstance().currentUser ?: run {
-            Toast.makeText(requireContext(), "User not authenticated", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.task_user_not_authed), Toast.LENGTH_SHORT).show()
             return
         }
         val staffId = currentUser.uid
@@ -160,7 +161,7 @@ class TaskDetails : Fragment() {
             .addSnapshotListener(requireActivity()) { doc, e ->
                 if (e != null) {
                     if (_binding != null) {
-                        Toast.makeText(requireContext(), "Error loading task: ${e.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getString(R.string.task_load_error, e.message ?: ""), Toast.LENGTH_SHORT).show()
                     }
                     return@addSnapshotListener
                 }
@@ -171,7 +172,7 @@ class TaskDetails : Fragment() {
                     }
                 } else {
                     if (_binding != null) {
-                        Toast.makeText(requireContext(), "Task not found", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getString(R.string.task_id_missing), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -248,7 +249,7 @@ class TaskDetails : Fragment() {
         }
 
         val currentUser = FirebaseAuth.getInstance().currentUser ?: run {
-            Toast.makeText(requireContext(), "User not authenticated", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.task_user_not_authed), Toast.LENGTH_SHORT).show()
             return
         }
         val staffId = currentUser.uid
@@ -265,7 +266,7 @@ class TaskDetails : Fragment() {
 
                     // Check if it's too early to start (more than 10 minutes before scheduled time)
                     if (!canStartTask(startTime)) {
-                        Toast.makeText(requireContext(), "Too early now for starting", Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(), getString(R.string.task_too_early_toast), Toast.LENGTH_LONG).show()
                         return@addOnSuccessListener
                     }
 
@@ -273,11 +274,11 @@ class TaskDetails : Fragment() {
                     val now = Timestamp.now()
                     updateTaskStatus(staffId, taskId, now)
                 } else {
-                    Toast.makeText(requireContext(), "Task not found", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.task_id_missing), Toast.LENGTH_SHORT).show()
                 }
             }
             .addOnFailureListener { e ->
-                Toast.makeText(requireContext(), "Failed to load task: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.task_load_error, e.message ?: ""), Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -293,12 +294,12 @@ class TaskDetails : Fragment() {
                 )
             )
             .addOnSuccessListener {
-                Toast.makeText(requireContext(), "Task started successfully!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.task_started_toast), Toast.LENGTH_SHORT).show()
                 // UI will be updated automatically through the snapshot listener
                 // The button text will remain "Start Task" and status text will show "IN PROGRESS"
             }
             .addOnFailureListener { e ->
-                Toast.makeText(requireContext(), "Failed to start task: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.task_update_error, e.message ?: ""), Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -309,7 +310,7 @@ class TaskDetails : Fragment() {
         }
 
         val currentUser = FirebaseAuth.getInstance().currentUser ?: run {
-            Toast.makeText(requireContext(), "User not authenticated", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.task_user_not_authed), Toast.LENGTH_SHORT).show()
             return
         }
         val staffId = currentUser.uid
@@ -329,7 +330,7 @@ class TaskDetails : Fragment() {
                     if (requiresPhoto && photoUrls.isEmpty()) {
                         Toast.makeText(
                             requireContext(),
-                            "Please upload at least one photo to finish this task",
+                            getString(R.string.task_photo_required_toast),
                             Toast.LENGTH_LONG
                         ).show()
                         return@addOnSuccessListener
@@ -338,11 +339,11 @@ class TaskDetails : Fragment() {
                     // If validation passes, finish the task
                     finishTask(staffId, taskId)
                 } else {
-                    Toast.makeText(requireContext(), "Task not found", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.task_id_missing), Toast.LENGTH_SHORT).show()
                 }
             }
             .addOnFailureListener { e ->
-                Toast.makeText(requireContext(), "Failed to load task: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.task_load_error, e.message ?: ""), Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -363,13 +364,13 @@ class TaskDetails : Fragment() {
                 )
             )
             .addOnSuccessListener {
-                Toast.makeText(requireContext(), "Task finished successfully!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.task_finished_toast), Toast.LENGTH_SHORT).show()
 
                 // Navigate back to previous page
                 findNavController().popBackStack()
             }
             .addOnFailureListener { e ->
-                Toast.makeText(requireContext(), "Failed to finish task: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.task_update_error, e.message ?: ""), Toast.LENGTH_SHORT).show()
             }
     }
 
