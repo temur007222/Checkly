@@ -130,20 +130,47 @@ class TaskDetails : Fragment() {
         val staffId = currentUser.uid
         val taskId = currentTaskId ?: return
 
-        // Here you would typically upload to Firebase Storage first
-        // For now, we'll just add the local URI to the photoUrls array
-        val photoUrl = imageUri.toString()
+        val storageRef = com.google.firebase.storage.FirebaseStorage.getInstance().reference
+            .child("task_photos/$taskId/${java.util.UUID.randomUUID()}.jpg")
 
-        db.collection("staff_task")
-            .document(staffId)
-            .collection("tasks")
-            .document(taskId)
-            .update("photoUrls", FieldValue.arrayUnion(photoUrl))
+        storageRef.putFile(imageUri)
             .addOnSuccessListener {
-                Toast.makeText(requireContext(), getString(R.string.task_photo_uploaded_toast), Toast.LENGTH_SHORT).show()
+                storageRef.downloadUrl
+                    .addOnSuccessListener { downloadUri ->
+                        db.collection("staff_task")
+                            .document(staffId)
+                            .collection("tasks")
+                            .document(taskId)
+                            .update("photoUrls", FieldValue.arrayUnion(downloadUri.toString()))
+                            .addOnSuccessListener {
+                                if (_binding != null) {
+                                    Toast.makeText(requireContext(),
+                                        getString(R.string.task_photo_uploaded_toast),
+                                        Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                            .addOnFailureListener { e ->
+                                if (_binding != null) {
+                                    Toast.makeText(requireContext(),
+                                        getString(R.string.task_photo_upload_error, e.message ?: ""),
+                                        Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                    }
+                    .addOnFailureListener { e ->
+                        if (_binding != null) {
+                            Toast.makeText(requireContext(),
+                                getString(R.string.task_photo_upload_error, e.message ?: ""),
+                                Toast.LENGTH_SHORT).show()
+                        }
+                    }
             }
             .addOnFailureListener { e ->
-                Toast.makeText(requireContext(), getString(R.string.task_photo_upload_error, e.message ?: ""), Toast.LENGTH_SHORT).show()
+                if (_binding != null) {
+                    Toast.makeText(requireContext(),
+                        getString(R.string.task_photo_upload_error, e.message ?: ""),
+                        Toast.LENGTH_SHORT).show()
+                }
             }
     }
 
