@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.temurx.checkly.R
 import com.temurx.checkly.data.Task
+import com.temurx.checkly.data.TaskStatus
 import com.temurx.checkly.databinding.FragmentTasksScreenBinding
 import com.temurx.checkly.utils.TasksListAdapter
 
@@ -21,8 +22,12 @@ class TasksScreen : Fragment() {
     private val binding get() = _binding!!
     private lateinit var adapter: TasksListAdapter
     private val tasksList = mutableListOf<Task>()
+    private val fullList = mutableListOf<Task>()
     private val db = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance() // To get current user
+    private val auth = FirebaseAuth.getInstance()
+
+    private enum class Filter { ALL, NOW, DONE }
+    private var currentFilter: Filter = Filter.ALL
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,16 +35,23 @@ class TasksScreen : Fragment() {
     ): View {
         _binding = FragmentTasksScreenBinding.inflate(inflater, container, false)
 
-        // Set up adapter
         adapter = TasksListAdapter(tasksList) { task ->
             val bundle = Bundle().apply {
-                putString("taskId", task.id)               // Task ID
+                putString("taskId", task.id)
             }
             findNavController().navigate(R.id.action_tasksScreen_to_taskDetails, bundle)
         }
-        // RecyclerView setup
         binding.taskListAdapter.layoutManager = LinearLayoutManager(requireContext())
         binding.taskListAdapter.adapter = adapter
+
+        binding.filterChips.setOnCheckedStateChangeListener { _, checkedIds ->
+            currentFilter = when (checkedIds.firstOrNull()) {
+                R.id.chipNow -> Filter.NOW
+                R.id.chipDone -> Filter.DONE
+                else -> Filter.ALL
+            }
+            applyFilter()
+        }
 
         fetchStaffTasks()
 
@@ -54,28 +66,40 @@ class TasksScreen : Fragment() {
             .document(staffId)
             .collection("tasks")
             .addSnapshotListener { snapshot, e ->
+                if (_binding == null) return@addSnapshotListener
                 if (e != null) {
                     Toast.makeText(requireContext(), getString(R.string.tasks_load_error), Toast.LENGTH_SHORT).show()
                     return@addSnapshotListener
                 }
 
                 if (snapshot != null) {
-                    val newTasks = mutableListOf<Task>()
+                    fullList.clear()
                     for (doc in snapshot.documents) {
                         val task = doc.toObject(Task::class.java)
                         if (task != null) {
-                            task.id = doc.id // ensure the ID is set for navigation
-                            newTasks.add(task)
+                            task.id = doc.id
+                            fullList.add(task)
                         }
                     }
-                    if (_binding != null) {
-                        binding.heroCount.text = getString(R.string.tasks_count, newTasks.size)
-                    }
-                    adapter.updateTasks(newTasks)
+                    binding.heroCount.text = getString(R.string.tasks_count, fullList.size)
+                    applyFilter()
                 }
             }
     }
 
+    private fun applyFilter() {
+        val filtered = when (currentFilter) {
+            Filter.ALL -> fullList
+            Filter.NOW -> fullList.filter {
+                val s = TaskStatus.fromWire(it.status)
+                s == TaskStatus.AVAILABLE || s == TaskStatus.IN_PROGRESS
+            }
+            Filter.DONE -> fullList.filter {
+                TaskStatus.fromWire(it.status) == TaskStatus.FINISHED
+            }
+        }
+        adapter.updateTasks(filtered)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
