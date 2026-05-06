@@ -1,9 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Checkly" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <style name="Theme.Checkly" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/text_on_primary</item>
+        <item name="colorPrimaryContainer">@color/primary_tint_06</item>
+        <item name="colorOnPrimaryContainer">@color/primary</item>
+        <item name="colorSecondary">@color/accent_gold</item>
+        <item name="colorOnSecondary">@color/text_primary</item>
+        <item name="android:colorBackground">@color/surface</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorSurfaceVariant">@color/surface_card</item>
+        <item name="colorOnSurfaceVariant">@color/text_muted</item>
+        <item name="colorOutline">@color/divider</item>
+        <item name="colorOutlineVariant">@color/divider</item>
+        <item name="colorError">@color/danger</item>
+        <item name="colorOnError">@color/text_on_primary</item>
+        <item name="textAppearanceDisplaySmall">@style/TextAppearance.Checkly.Display</item>
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.Checkly.Headline</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.Checkly.Title</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.Checkly.Body</item>
+        <item name="textAppearanceBodySmall">@style/TextAppearance.Checkly.BodySmall</item>
+        <item name="textAppearanceLabelSmall">@style/TextAppearance.Checkly.Label</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="shapeAppearanceCornerSmall">@style/Shape.Checkly.Small</item>
+        <item name="shapeAppearanceCornerMedium">@style/Shape.Checkly.Medium</item>
+        <item name="shapeAppearanceCornerLarge">@style/Shape.Checkly.Large</item>
+        <item name="materialButtonStyle">@style/Widget.Checkly.Button.Primary</item>
     </style>
 
-    <style name="Theme.Checkly" parent="Base.Theme.Checkly" />
+    <style name="Shape.Checkly.Small" parent="ShapeAppearance.Material3.Corner.Small">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_input</item>
+    </style>
+    <style name="Shape.Checkly.Medium" parent="ShapeAppearance.Material3.Corner.Medium">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_card</item>
+    </style>
+    <style name="Shape.Checkly.Large" parent="ShapeAppearance.Material3.Corner.Large">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_sheet</item>
+    </style>
+
+    <style name="Widget.Checkly.Button.Primary" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/primary</item>
+        <item name="android:textColor">@color/text_on_primary</item>
+        <item name="android:textAppearance">@style/TextAppearance.Checkly.Title</item>
+        <item name="android:minHeight">@dimen/height_button_cta</item>
+        <item name="cornerRadius">@dimen/radius_button</item>
+        <item name="rippleColor">@color/primary_dark</item>
+    </style>
+
+    <style name="Widget.Checkly.Button.Secondary" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/surface_overlay_06</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textAppearance">@style/TextAppearance.Checkly.Title</item>
+        <item name="android:minHeight">@dimen/height_button_secondary</item>
+        <item name="cornerRadius">@dimen/radius_input</item>
+        <item name="elevation">0dp</item>
+    </style>
 </resources>

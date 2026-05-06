@@ -1,7 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Checkly" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+
+    <style name="Theme.Checkly" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/text_on_primary</item>
+        <item name="colorPrimaryContainer">@color/primary_tint_06</item>
+        <item name="colorOnPrimaryContainer">@color/primary</item>
+        <item name="colorSecondary">@color/accent_gold</item>
+        <item name="colorOnSecondary">@color/text_primary</item>
+        <item name="android:colorBackground">@color/surface</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorSurfaceVariant">@color/surface_card</item>
+        <item name="colorOnSurfaceVariant">@color/text_muted</item>
+        <item name="colorOutline">@color/divider</item>
+        <item name="colorOutlineVariant">@color/divider</item>
+        <item name="colorError">@color/danger</item>
+        <item name="colorOnError">@color/text_on_primary</item>
+        <item name="textAppearanceDisplaySmall">@style/TextAppearance.Checkly.Display</item>
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.Checkly.Headline</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.Checkly.Title</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.Checkly.Body</item>
+        <item name="textAppearanceBodySmall">@style/TextAppearance.Checkly.BodySmall</item>
+        <item name="textAppearanceLabelSmall">@style/TextAppearance.Checkly.Label</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="shapeAppearanceCornerSmall">@style/Shape.Checkly.Small</item>
+        <item name="shapeAppearanceCornerMedium">@style/Shape.Checkly.Medium</item>
+        <item name="shapeAppearanceCornerLarge">@style/Shape.Checkly.Large</item>
+        <item name="materialButtonStyle">@style/Widget.Checkly.Button.Primary</item>
     </style>
 </resources>
