@@ -42,9 +42,6 @@ class TaskDetails : Fragment() {
         if (success) {
             photoUri?.let { uri ->
                 photoAdapter.addPhoto(uri)
-                binding.photoText.text = "Add Another Photo"
-
-                // Upload photo to Firestore
                 uploadPhotoToFirestore(uri)
             }
         }
@@ -208,55 +205,71 @@ class TaskDetails : Fragment() {
 
 
     private fun updateUI(doc: DocumentSnapshot) {
-        binding.taskTitle.text = doc.getString("title") ?: "No Title"
-        binding.taskDescription.text = doc.getString("description") ?: "No Description"
+        binding.taskTitle.text = doc.getString("title").orEmpty()
+        binding.taskDescription.text = doc.getString("description").orEmpty()
 
-        val status = doc.getString("status") ?: "PENDING"
-        binding.taskStatus.text = status
-
+        val status = doc.getString("status")
+        val canonical = TaskStatus.fromWire(status)
         val startTime = doc.getTimestamp("startTime")
         val requiresPhoto = doc.getBoolean("requiresPhoto") ?: false
         val photoUrls = doc.get("photoUrls") as? List<String> ?: emptyList()
 
-        // Display photo requirement status
-        binding.photoStatus.text = if (requiresPhoto) "Yes" else "No"
+        // Status pill — text + background
+        binding.taskStatus.text = when (canonical) {
+            TaskStatus.NOT_YET_AVAILABLE -> getString(R.string.task_status_not_yet)
+            TaskStatus.AVAILABLE -> getString(R.string.task_status_available)
+            TaskStatus.IN_PROGRESS -> getString(R.string.task_status_in_progress)
+            TaskStatus.FINISHED -> getString(R.string.task_status_finished)
+            TaskStatus.OVERDUE -> getString(R.string.task_status_overdue)
+            else -> ""
+        }
+        binding.taskStatus.setBackgroundResource(when (canonical) {
+            TaskStatus.AVAILABLE -> R.drawable.pill_status_available
+            TaskStatus.IN_PROGRESS -> R.drawable.pill_status_in_progress
+            TaskStatus.FINISHED -> R.drawable.pill_status_done
+            TaskStatus.OVERDUE -> R.drawable.pill_status_overdue
+            else -> R.drawable.pill_status_wait
+        })
+
+        // Photo-required pill — visibility-only (pill itself carries the meaning)
+        binding.photoStatus.visibility = if (requiresPhoto) View.VISIBLE else View.GONE
 
         // Update button states based on status and time
-        when (TaskStatus.fromWire(status)) {
+        val timeFmt = SimpleDateFormat("HH:mm", Locale.getDefault())
+        when (canonical) {
             TaskStatus.AVAILABLE, TaskStatus.NOT_YET_AVAILABLE -> {
-                // Check if it's too early to start (more than 10 minutes before start time)
                 val canStart = canStartTask(startTime)
                 binding.startTaskBtn.isEnabled = canStart
-                binding.startTaskBtn.text = if (canStart) "Start Task" else "Too Early"
+                binding.startTaskBtn.text = if (canStart) {
+                    getString(R.string.task_cta_start)
+                } else {
+                    val startStr = startTime?.toDate()?.let { timeFmt.format(it) } ?: ""
+                    getString(R.string.task_cta_too_early, startStr)
+                }
                 binding.finishTaskBtn.isEnabled = false
-                binding.finishTaskBtn.text = "Finish Task"
+                binding.finishTaskBtn.text = getString(R.string.task_cta_finish)
             }
             TaskStatus.IN_PROGRESS -> {
                 binding.startTaskBtn.isEnabled = false
-                binding.startTaskBtn.text = "Started"
-
-                // Enable finish button for in-progress tasks
+                binding.startTaskBtn.text = getString(R.string.task_status_in_progress)
                 binding.finishTaskBtn.isEnabled = true
-                binding.finishTaskBtn.text = "Finish Task"
+                binding.finishTaskBtn.text = getString(R.string.task_cta_finish)
             }
             TaskStatus.FINISHED -> {
                 binding.startTaskBtn.isEnabled = false
-                binding.startTaskBtn.text = "Completed"
+                binding.startTaskBtn.text = getString(R.string.task_cta_completed)
                 binding.finishTaskBtn.isEnabled = false
-                binding.finishTaskBtn.text = "Finished"
+                binding.finishTaskBtn.text = getString(R.string.task_status_finished)
             }
             TaskStatus.OVERDUE -> {
-                // Phase 6 will rewrite this UI; for now mirror the AVAILABLE branch
-                // disable-only behavior and surface a simple overdue label.
-                binding.taskStatus.text = "Overdue"
                 binding.startTaskBtn.isEnabled = false
-                binding.startTaskBtn.text = "Start Task"
+                binding.startTaskBtn.text = getString(R.string.task_cta_start)
                 binding.finishTaskBtn.isEnabled = false
-                binding.finishTaskBtn.text = "Finish Task"
+                binding.finishTaskBtn.text = getString(R.string.task_cta_finish)
             }
         }
 
-        // Update photo section visibility and status
+        // Update photo section visibility
         if (requiresPhoto) {
             binding.photoProve.visibility = View.VISIBLE
             updatePhotoList(photoUrls)
@@ -266,8 +279,8 @@ class TaskDetails : Fragment() {
 
         // Display times
         val dueTime = doc.getTimestamp("dueTime")
-        binding.startTime.text = startTime?.toDate()?.let { formatDateTime(it) } ?: "N/A"
-        binding.taskDueTime.text = dueTime?.toDate()?.let { formatDateTime(it) } ?: "N/A"
+        binding.startTime.text = startTime?.toDate()?.let { timeFmt.format(it) } ?: "—"
+        binding.taskDueTime.text = dueTime?.toDate()?.let { timeFmt.format(it) } ?: "—"
     }
 
     private fun canStartTask(startTime: Timestamp?): Boolean {
@@ -281,7 +294,7 @@ class TaskDetails : Fragment() {
 
     private fun handleStartTask() {
         val taskId = currentTaskId ?: run {
-            Toast.makeText(requireContext(), "Task ID not available", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.task_id_missing), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -342,7 +355,7 @@ class TaskDetails : Fragment() {
 
     private fun handleFinishTask() {
         val taskId = currentTaskId ?: run {
-            Toast.makeText(requireContext(), "Task ID not available", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.task_id_missing), Toast.LENGTH_SHORT).show()
             return
         }
 
