@@ -1,5 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Checkly</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="brand_wordmark">Checkly</string>
+
+    <!-- Auth -->
+    <string name="auth_welcome_back">Welcome back.</string>
+    <string name="auth_subtitle_staff">Sign in to start your shift</string>
+    <string name="auth_email_label">Email</string>
+    <string name="auth_password_label">Password</string>
+    <string name="auth_email_hint">your.email@cafe.uz</string>
+    <string name="auth_password_hint">Enter your password</string>
+    <string name="auth_signin_cta">Sign in</string>
+    <string name="auth_forgot_link">Forgot password?</string>
+    <string name="auth_error_empty_fields">Please enter email and password</string>
+    <string name="auth_error_failed">Login failed: %1$s</string>
+
+    <!-- Tasks list -->
+    <string name="tasks_label_today">Today</string>
+    <string name="tasks_count">%1$d tasks</string>
+    <string name="tasks_filter_all">All</string>
+    <string name="tasks_filter_now">Now</string>
+    <string name="tasks_filter_done">Done</string>
+    <string name="tasks_empty_title">All caught up</string>
+    <string name="tasks_empty_body">No tasks scheduled today. Enjoy the calm.</string>
+    <string name="tasks_load_error">Couldn\'t load tasks. Tap to retry.</string>
+
+    <!-- Task detail -->
+    <string name="task_status_not_yet">Coming up</string>
+    <string name="task_status_available">Available now</string>
+    <string name="task_status_in_progress">In progress</string>
+    <string name="task_status_finished">Finished</string>
+    <string name="task_status_overdue">Overdue</string>
+    <string name="task_pill_photo_required">Photo required</string>
+    <string name="task_time_start">Start</string>
+    <string name="task_time_due">Due</string>
+    <string name="task_photo_proof_h">Photo proof</string>
+    <string name="task_cta_start">Start task</string>
+    <string name="task_cta_too_early">Available at %1$s</string>
+    <string name="task_cta_finish">Finish task</string>
+    <string name="task_cta_finish_needs_photo">Add photo to finish</string>
+    <string name="task_cta_completed">Completed ✓</string>
+    <string name="task_started_toast">Task started</string>
+    <string name="task_finished_toast">Task finished</string>
+    <string name="task_too_early_toast">Too early to start</string>
+    <string name="task_photo_required_toast">Please upload at least one photo to finish</string>
+    <string name="task_photo_uploaded_toast">Photo uploaded</string>
+    <string name="task_photo_upload_error">Photo upload failed: %1$s</string>
+    <string name="task_id_missing">Task not found</string>
+    <string name="task_user_not_authed">Not signed in</string>
+    <string name="task_load_error">Couldn\'t load task: %1$s</string>
+    <string name="task_update_error">Couldn\'t update task: %1$s</string>
+    <string name="task_meta_today_at">Today · %1$s</string>
+
+    <!-- Common -->
+    <string name="action_retry">Retry</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="content_desc_back">Back</string>
+    <string name="content_desc_avatar">Profile photo</string>
+
+    <!-- Legacy/scaffold -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
