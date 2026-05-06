@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance.Checkly.Display" parent="TextAppearance.Material3.DisplaySmall">
+        <item name="android:fontFamily">@font/dm_serif_display</item>
+        <item name="fontFamily">@font/dm_serif_display</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:lineSpacingMultiplier">1.05</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="TextAppearance.Checkly.Headline" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:fontFamily">@font/dm_serif_display</item>
+        <item name="fontFamily">@font/dm_serif_display</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+    <style name="TextAppearance.Checkly.Title" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textFontWeight">600</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+    <style name="TextAppearance.Checkly.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+    <style name="TextAppearance.Checkly.BodySmall" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:textColor">@color/text_muted</item>
+    </style>
+    <style name="TextAppearance.Checkly.Caption" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/text_muted</item>
+    </style>
+    <style name="TextAppearance.Checkly.Label" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:letterSpacing">0.12</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/text_muted</item>
+    </style>
+    <style name="TextAppearance.Checkly.Wordmark" parent="TextAppearance.Checkly.Display">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textColor">@color/primary</item>
+    </style>
+    <style name="TextAppearance.Checkly.DisplayLarge" parent="TextAppearance.Checkly.Display">
+        <item name="android:textSize">32sp</item>
+    </style>
+</resources>
