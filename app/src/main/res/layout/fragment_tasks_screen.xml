@@ -46,7 +46,7 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipAll"
-            style="@style/Widget.Material3.Chip.Filter"
+            style="@style/Widget.Checkly.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tasks_filter_all"
@@ -54,14 +54,14 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipNow"
-            style="@style/Widget.Material3.Chip.Filter"
+            style="@style/Widget.Checkly.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tasks_filter_now" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipDone"
-            style="@style/Widget.Material3.Chip.Filter"
+            style="@style/Widget.Checkly.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tasks_filter_done" />

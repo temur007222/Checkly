@@ -64,4 +64,12 @@
         <item name="cornerRadius">@dimen/radius_input</item>
         <item name="elevation">0dp</item>
     </style>
+
+    <style name="Widget.Checkly.Chip.Filter" parent="Widget.Material3.Chip.Filter">
+        <item name="chipBackgroundColor">@color/chip_filter_bg_state</item>
+        <item name="android:textColor">@color/chip_filter_text</item>
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="chipMinTouchTargetSize">@dimen/size_touch_min</item>
+        <item name="checkedIconTint">@color/chip_filter_text</item>
+    </style>
 </resources>

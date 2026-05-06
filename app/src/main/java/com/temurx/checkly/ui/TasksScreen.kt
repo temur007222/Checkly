@@ -68,7 +68,9 @@ class TasksScreen : Fragment() {
                             newTasks.add(task)
                         }
                     }
-                    // ✅ Always update via adapter method (with sorting)
+                    if (_binding != null) {
+                        binding.heroCount.text = getString(R.string.tasks_count, newTasks.size)
+                    }
                     adapter.updateTasks(newTasks)
                 }
             }
