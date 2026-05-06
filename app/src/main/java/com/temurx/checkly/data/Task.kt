@@ -14,7 +14,7 @@ data class Task(
     val updatedAt: Timestamp = Timestamp.now(),
     var isCompleted: Boolean = false,
     val startedAt: Timestamp? = null,
-    val status: String = "NOT YET AVAILABLE",
+    val status: String = TaskStatus.NOT_YET_AVAILABLE,
     val photoUrls: List<String> = emptyList(),
     val requiresPhoto: Boolean = false,
     val createdBy: String = "Oybek"

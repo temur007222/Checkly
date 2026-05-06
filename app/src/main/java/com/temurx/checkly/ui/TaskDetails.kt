@@ -20,6 +20,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.temurx.checkly.R
+import com.temurx.checkly.data.TaskStatus
 import com.temurx.checkly.databinding.FragmentTaskDetailsBinding
 import com.temurx.checkly.utils.PhotoAdapter
 import java.io.File
@@ -194,8 +195,8 @@ class TaskDetails : Fragment() {
         binding.photoStatus.text = if (requiresPhoto) "Yes" else "No"
 
         // Update button states based on status and time
-        when (status.uppercase()) {
-            "AVAILABLE", "NOT YET AVAILABLE" -> {
+        when (TaskStatus.fromWire(status)) {
+            TaskStatus.AVAILABLE, TaskStatus.NOT_YET_AVAILABLE -> {
                 // Check if it's too early to start (more than 10 minutes before start time)
                 val canStart = canStartTask(startTime)
                 binding.startTaskBtn.isEnabled = canStart
@@ -203,7 +204,7 @@ class TaskDetails : Fragment() {
                 binding.finishTaskBtn.isEnabled = false
                 binding.finishTaskBtn.text = "Finish Task"
             }
-            "IN PROGRESS", "STARTED" -> {
+            TaskStatus.IN_PROGRESS -> {
                 binding.startTaskBtn.isEnabled = false
                 binding.startTaskBtn.text = "Started"
 
@@ -211,11 +212,20 @@ class TaskDetails : Fragment() {
                 binding.finishTaskBtn.isEnabled = true
                 binding.finishTaskBtn.text = "Finish Task"
             }
-            "FINISHED", "COMPLETED" -> {
+            TaskStatus.FINISHED -> {
                 binding.startTaskBtn.isEnabled = false
                 binding.startTaskBtn.text = "Completed"
                 binding.finishTaskBtn.isEnabled = false
                 binding.finishTaskBtn.text = "Finished"
+            }
+            TaskStatus.OVERDUE -> {
+                // Phase 6 will rewrite this UI; for now mirror the AVAILABLE branch
+                // disable-only behavior and surface a simple overdue label.
+                binding.taskStatus.text = "Overdue"
+                binding.startTaskBtn.isEnabled = false
+                binding.startTaskBtn.text = "Start Task"
+                binding.finishTaskBtn.isEnabled = false
+                binding.finishTaskBtn.text = "Finish Task"
             }
         }
 
@@ -289,7 +299,7 @@ class TaskDetails : Fragment() {
             .document(taskId)
             .update(
                 mapOf(
-                    "status" to "IN PROGRESS",
+                    "status" to TaskStatus.IN_PROGRESS,
                     "startedAt" to now
                 )
             )
@@ -356,7 +366,7 @@ class TaskDetails : Fragment() {
             .document(taskId)
             .update(
                 mapOf(
-                    "status" to "FINISHED",
+                    "status" to TaskStatus.FINISHED,
                     "finishedAt" to now,
                     "updatedAt" to now,
                     "completedAt" to now,
