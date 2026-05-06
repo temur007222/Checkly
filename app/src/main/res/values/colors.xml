@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="primary">#FFB5462E</color>
+    <color name="primary_dark">#FF9C3823</color>
+    <color name="primary_glow">#40B5462E</color>
+    <color name="primary_tint_06">#0FB5462E</color>
+    <color name="surface">#FFFBF7F1</color>
+    <color name="surface_card">#FFFFFFFF</color>
+    <color name="surface_overlay_06">#0F1F1A17</color>
+    <color name="accent_gold">#FFD4A574</color>
+    <color name="accent_gold_subtle">#FFE8D5C4</color>
+    <color name="avatar_tint_a">#FFE8D5C4</color>
+    <color name="avatar_tint_b">#FFD4A574</color>
+    <color name="avatar_tint_c">#FFFBE3D2</color>
+    <color name="text_primary">#FF1F1A17</color>
+    <color name="text_muted">#FF7A5C5C</color>
+    <color name="text_on_primary">#FFFBF7F1</color>
+    <color name="divider">#0F1F1A17</color>
+    <color name="success">#FF4F7A4F</color>
+    <color name="success_tint_15">#264F7A4F</color>
+    <color name="danger">#FF8B2F1A</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="light_green">#4CAF50</color>
-    <color name="red">#FB0000</color>
-    <color name="yellow">#FFEB3B</color>
-
 </resources>
